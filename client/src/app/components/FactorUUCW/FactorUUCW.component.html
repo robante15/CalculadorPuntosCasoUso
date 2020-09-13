@@ -1,0 +1,231 @@
+<h1>{{ title }}</h1>
+
+<ngb-accordion #acc="ngbAccordion">
+  <ngb-panel title="Teoría">
+    <ng-template ngbPanelContent>
+      <p>
+        Para determinar el nivel de complejidad se puede realizar mediante dos
+        métodos: basado en transacciones o basado en clases de análisis. Una
+        transacción es un conjunto de actividades atómicas, lo que quiere decir
+        que se ejecutan todas o no se ejecuta ninguna.
+      </p>
+
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <p>
+              <b>Basado en transacciones:</b> Toma en cuenta el número de
+              transacciones que se pueden realizar en un caso de uso y lo evalúa
+              según la siguiente tabla:
+            </p>
+          </div>
+          <div class="col">
+            <b>Basado en clases de análisis:</b> Toma en cuenta el número de
+            clases que tiene un caso de uso y lo evalúa según la siguiente
+            tabla:
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <table class="table table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Tipo de actor</th>
+                  <th scope="col">Descripción</th>
+                  <th scope="col">Factor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let elemento of BasadoTransacciones; index as i">
+                  <td>{{ elemento.TipoActor }}</td>
+                  <td>{{ elemento.Descripcion }}</td>
+                  <td>{{ elemento.Factor }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col">
+            <table class="table table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Tipo de actor</th>
+                  <th scope="col">Descripción</th>
+                  <th scope="col">Factor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let elemento of BasadoClases; index as i">
+                  <td>{{ elemento.TipoActor }}</td>
+                  <td>{{ elemento.Descripcion }}</td>
+                  <td>{{ elemento.Factor }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <p>
+        Ahora independientemente del camino utilizado para determinar el tipo de
+        caso de uso, la fórmula es la misma y se presenta a continuación:
+      </p>
+      <p>La fórmula sería:</p>
+      <p>UUCW = Sum (CantidadDeUnTipoDeCasoUso*Factor)</p>
+      <p>
+        Para realizar esta operación se debe contar cuántos casos de uso de cada
+        tipo hay en el sistema y esta cantidad se sustituiría en el campo
+        nombrado como CantidadDeUnTipoDeCasoUso y se multiplica por el valor que
+        tenga su factor correspondiente, para obtener el resultado por cada tipo
+        de caso de uso. Una vez hecho esto se suma cada producto para obtener el
+        factor de peso de los casos de uso sin ajustar (UUCW).
+      </p>
+      <p>
+        Esta estimación es bastante imprecisa debido principalmente a la escasa
+        información que se tiene, pero permitirá obtener una idea del esfuerzo
+        necesario para llevar adelante el mismo, y podrá ser refinada a medida
+        que se obtenga más información.
+      </p>
+    </ng-template>
+  </ngb-panel>
+</ngb-accordion>
+
+<hr />
+
+<h2 class="text-center">Listado de Casos de Uso</h2>
+
+<h5>Indicaciones:</h5>
+<p>
+  Agrega los Casos de Uso que necesites en tu solución, asignales un nombre o
+  una descripción, además de asignarle una complejidad entre Simple, Media y
+  Compleja.
+</p>
+
+<form [formGroup]="CasosDeUsoForm" (ngSubmit)="CalculoUAW()">
+  <div formArrayName="CDUso">
+    <div
+      *ngFor="
+        let skill of CasosDeUsoForm.get('CDUso')['controls'];
+        let i = index
+      "
+    >
+      <div class="container" [formGroupName]="i">
+        <div class="row">
+          <div class="col-lg-8">
+            <label>Nombre: </label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Nombre"
+              formControlName="Nombre"
+              required
+            />
+          </div>
+
+          <div class="col-lg-3">
+            <label>Complejidad: </label>
+            <div
+              class="btn-group btn-group-toggle"
+              ngbRadioGroup
+              name="radioBasic"
+            >
+              <label ngbButtonLabel class="btn-primary">
+                <input
+                  ngbButton
+                  type="radio"
+                  formControlName="Complejidad"
+                  value="0"
+                />
+                Simple
+              </label>
+              <label ngbButtonLabel class="btn-primary">
+                <input
+                  ngbButton
+                  type="radio"
+                  formControlName="Complejidad"
+                  value="1"
+                />
+                Media
+              </label>
+              <label ngbButtonLabel class="btn-primary">
+                <input
+                  ngbButton
+                  type="radio"
+                  formControlName="Complejidad"
+                  value="2"
+                />
+                Alta
+              </label>
+            </div>
+          </div>
+
+          <div class="col-lg-1">
+            <label>Remover</label>
+            <button
+              class="btn btn-danger w-100"
+              (click)="RemoverActorSimple(i)"
+            >
+              -
+            </button>
+          </div>
+        </div>
+      </div>
+      <hr />
+    </div>
+  </div>
+</form>
+
+<div class="d-flex justify-content-end">
+  <button
+    class="btn btn-light mr-3"
+    type="button"
+    (click)="AgregarActorSimple()"
+  >
+    Agregar Caso de Uso
+  </button>
+  <button type="button" class="btn btn-primary" (click)="CalculoUAW()">
+    Calcular
+  </button>
+</div>
+
+<h2 class="text-center">Resultados</h2>
+
+<div class="col-md-6 offset-md-3">
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Complejidad</th>
+        <th scope="col">Cantidad</th>
+        <th scope="col">Factor</th>
+        <th scope="col">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Simple</td>
+        <td>{{ ResultadoUUCW.CantidadSimple }}</td>
+        <td>5</td>
+        <td>{{ ResultadoUUCW.CantidadSimple * 5 }}</td>
+      </tr>
+      <tr>
+        <td>Medio</td>
+        <td>{{ ResultadoUUCW.CantidadMedia }}</td>
+        <td>10</td>
+        <td>{{ ResultadoUUCW.CantidadMedia * 10 }}</td>
+      </tr>
+      <tr>
+        <td>Complejo</td>
+        <td>{{ ResultadoUUCW.CantidadCompleja }}</td>
+        <td>15</td>
+        <td>{{ ResultadoUUCW.CantidadCompleja * 15 }}</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td><b>Total</b></td>
+        <td>
+          <b>{{ ResultadoUUCW.UUCWTotal }}</b>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

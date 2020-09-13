@@ -1,0 +1,368 @@
+<h1>{{ title }}</h1>
+
+<ngb-accordion #acc="ngbAccordion">
+  <ngb-panel title="Teoría">
+    <ng-template ngbPanelContent>
+      <div class="col-md-12">
+        <h5 class="text-center">UCP = (UUCW + UAW) x TCF x ECF</h5>
+
+        <h5 class="text-center">Esfuerzo Horas-Hombre</h5>
+        <p>
+          Este cálculo se realiza con el fin de tener una aproximación del
+          esfuerzo, pensando solo en el desarrollo según las funcionalidades de
+          los casos de uso. Anteriormente, se sugería utilizar 20 horas persona
+          por UCP, pero a través del tiempo se ha ido mejorando. Está basado en
+          los factores ambientales y se calcula de la siguiente manera:
+        </p>
+
+        <p>
+          Primero se debe contar la cantidad de factores ambientales del E1 al
+          E6 que tienen una puntuación menor a 3, también contar la cantidad de
+          estos mismos del E7 y E8 que son mayores que 3.
+        </p>
+      </div>
+    </ng-template>
+  </ngb-panel>
+</ngb-accordion>
+
+<h2 class="text-center">Resultados</h2>
+
+<h5 class="text-center">
+  UCP = ({{ this.ResultadoUUCW.UUCWTotal }} + {{ this.ResultadoUAW.UAWTotal }})
+  x {{ this.ResultadoTCF.FCTValue }} x {{ this.ResultadoECF.EFValue }} =
+  {{ this.UCPFinal }}
+</h5>
+<h5 class="text-center">UCP = {{ this.UCPFinal }}</h5>
+
+<h1>Reporte</h1>
+
+<h2>1. Factor de peso de los actores sin ajustar (UAW)</h2>
+<div class="col-md-10 offset-md-1">
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Actor</th>
+        <th scope="col">Complejidad</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ElementoUAW of ResultadoUAW.ListadoUAW; index as i">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ ElementoUAW.Nombre }}</td>
+        <td *ngIf="ElementoUAW.Complejidad == 0">Simple</td>
+        <td *ngIf="ElementoUAW.Complejidad == 1">Medio</td>
+        <td *ngIf="ElementoUAW.Complejidad == 2">Complejo</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h5 class="text-center">Conteo</h5>
+<div class="col-md-6 offset-md-3">
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Complejidad</th>
+        <th scope="col">Cantidad</th>
+        <th scope="col">Factor</th>
+        <th scope="col">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Simple</td>
+        <td>{{ ResultadoUAW.CantidadSimple }}</td>
+        <td>5</td>
+        <td>{{ ResultadoUAW.CantidadSimple * 5 }}</td>
+      </tr>
+      <tr>
+        <td>Medio</td>
+        <td>{{ ResultadoUAW.CantidadMedia }}</td>
+        <td>5</td>
+        <td>{{ ResultadoUAW.CantidadMedia * 10 }}</td>
+      </tr>
+      <tr>
+        <td>Complejo</td>
+        <td>{{ ResultadoUAW.CantidadCompleja }}</td>
+        <td>5</td>
+        <td>{{ ResultadoUAW.CantidadCompleja * 15 }}</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td><b>Total</b></td>
+        <td>
+          <b>{{ ResultadoUAW.UAWTotal }}</b>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h2>2. Factor de peso de los casos de uso sin ajustar (UUCW)</h2>
+<div class="col-md-10 offset-md-1">
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Complejidad</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ElementoUUCW of ResultadoUUCW.ListadoUUCW; index as i">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ ElementoUUCW.Nombre }}</td>
+        <td *ngIf="ElementoUUCW.Complejidad == 0">Simple</td>
+        <td *ngIf="ElementoUUCW.Complejidad == 1">Medio</td>
+        <td *ngIf="ElementoUUCW.Complejidad == 2">Complejo</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h5 class="text-center">Conteo</h5>
+<div class="col-md-6 offset-md-3">
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Complejidad</th>
+        <th scope="col">Cantidad</th>
+        <th scope="col">Factor</th>
+        <th scope="col">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Simple</td>
+        <td>{{ ResultadoUUCW.CantidadSimple }}</td>
+        <td>5</td>
+        <td>{{ ResultadoUUCW.CantidadSimple * 5 }}</td>
+      </tr>
+      <tr>
+        <td>Medio</td>
+        <td>{{ ResultadoUUCW.CantidadMedia }}</td>
+        <td>5</td>
+        <td>{{ ResultadoUUCW.CantidadMedia * 10 }}</td>
+      </tr>
+      <tr>
+        <td>Complejo</td>
+        <td>{{ ResultadoUUCW.CantidadCompleja }}</td>
+        <td>5</td>
+        <td>{{ ResultadoUUCW.CantidadCompleja * 15 }}</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td><b>Total</b></td>
+        <td>
+          <b>{{ ResultadoUUCW.UUCWTotal }}</b>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h2>3. Factores de complejidad técnica</h2>
+
+<div class="col-md-10 offset-md-1">
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Peso</th>
+        <th scope="col">Puntuación</th>
+        <th scope="col">Valor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ElementoTCF of ResultadoTCF.TCF; index as i">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ ElementoTCF.Descripcion }}</td>
+        <td>{{ ElementoTCF.Peso }}</td>
+        <td>
+          <ngb-rating [resettable]="true" [(rate)]="ElementoTCF.Valor">
+            <ng-template let-fill="fill" let-index="index">
+              <span class="star" [class.filled]="fill === 100">&#9733;</span>
+            </ng-template>
+          </ngb-rating>
+        </td>
+        <td>{{ ElementoTCF.Valor * ElementoTCF.Peso }}</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><b>Total:</b></td>
+        <td>
+          <b>{{ ResultadoTCF.TFactor }}</b>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h5 class="text-center">TCF = 0.6 + (TF/100)</h5>
+<h5 class="text-center">
+  TCF = 0.6 + ({{ ResultadoTCF.TFactor }}/100) = {{ ResultadoTCF.FCTValue }}
+</h5>
+<h5 class="text-center">TCF = {{ ResultadoTCF.FCTValue }}</h5>
+
+<h2>4. Factores ambientales</h2>
+
+<div class="col-md-10 offset-md-1">
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Peso</th>
+        <th scope="col">Puntuación</th>
+        <th scope="col">Valor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ElementoECF of ResultadoECF.FactoresAmb; index as i">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ ElementoECF.Descripcion }}</td>
+        <td>{{ ElementoECF.Peso }}</td>
+        <td>
+          <ngb-rating [resettable]="true" [(rate)]="ElementoECF.Valor">
+            <ng-template let-fill="fill" let-index="index">
+              <span class="star" [class.filled]="fill === 100">&#9733;</span>
+            </ng-template>
+          </ngb-rating>
+        </td>
+        <td>{{ ElementoECF.Valor * ElementoECF.Peso }}</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><b>Total:</b></td>
+        <td>
+          <b>{{ ResultadoECF.EFactor }}</b>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h5 class="text-center">ECF = 1.4 + (-0.03 x EF)</h5>
+<h5 class="text-center">
+  ECF = 1.4 + (-0.03 * {{ ResultadoECF.EFactor }}) = {{ ResultadoECF.EFValue }}
+</h5>
+<h5 class="text-center">ECF = {{ ResultadoECF.EFValue }}</h5>
+
+<h2>5. Puntos de casos de uso ajustados (UCP)</h2>
+<h5 class="text-center">
+  UCP = ({{ this.ResultadoUUCW.UUCWTotal }} + {{ this.ResultadoUAW.UAWTotal }})
+  x {{ this.ResultadoTCF.FCTValue }} x {{ this.ResultadoECF.EFValue }} =
+  {{ this.UCPFinal }}
+</h5>
+<h5 class="text-center">UCP = {{ this.UCPFinal }}</h5>
+
+<h2>6. Esfuerzo Horas-Hombre</h2>
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <p>Conteo de factores aplicando el filtro :</p>
+      <br />
+      <table class="table table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Factor</th>
+            <th scope="col">Filtro</th>
+            <th scope="col">Cantidad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>De E1 a E6</td>
+            <td>Factor < 3</td>
+            <td>{{ ResultadoECF.E1E6Menor }}</td>
+          </tr>
+          <tr>
+            <td>De E7 a E8</td>
+            <td>Factor > 3</td>
+            <td>{{ ResultadoECF.E7E8Mayor }}</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><b>Total:</b></td>
+            <td>
+              <b>{{ ResultadoECF.E7E8Mayor + ResultadoECF.E1E6Menor }}</b>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col">
+      <p>
+        Para evaluar el resultado o la cantidad total según la siguiente tabla:
+      </p>
+
+      <table class="table table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Horas-Persona (CF)</th>
+            <th scope="col">Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>20</td>
+            <td>Si el valor es<=2</td>
+          </tr>
+          <tr>
+            <td>28</td>
+            <td>Si el valor es<=4</td>
+          </tr>
+          <tr>
+            <td>36</td>
+            <td>Si el valor es>=5</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<h5 class="text-center">Cantidad Horas-Persona = UCP x CF</h5>
+<h5 class="text-center">
+  Cantidad Horas-Persona = {{ this.UCPFinal }} x
+  {{ this.CalculoHorasHombre.FactorHoraPersona }}
+</h5>
+<h5 class="text-center">
+  Cantidad Horas-Persona = {{ this.CalculoHorasHombre.CantidadHorasPersona }}
+</h5>
+
+<div class="col-md-6 offset-md-3">
+<table class="table table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Actividad</th>
+      <th scope="col">Porcentaje</th>
+      <th scope="col">Valor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let ElementoHH of CalculoHorasHombre.EsfuerzoHH; index as i">
+      <td>{{ ElementoHH.Actividad }}</td>
+      <td>E/{{ ElementoHH.Porcentaje }}</td>
+      <td>{{ ElementoHH.Valor }}</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><b>Total:</b></td>
+      <td>
+        <b>{{ this.CalculoHorasHombre.HHTotal }}</b>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>

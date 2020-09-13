@@ -1,0 +1,170 @@
+<div class="col-lg-8 offset-2 pt-3">
+  <h1>{{ this.title }}</h1>
+
+  <h2>Paso 1. Identificación de componentes.</h2>
+
+  <div class="form-row">
+    <h3>Entradas externas. EE.</h3>
+    <button
+      class="btn btn-light"
+      type="button"
+      (click)="AgregarEntradaExterna()"
+    >
+      +
+    </button>
+  </div>
+
+  <form [formGroup]="PuntoFuncionForm" (ngSubmit)="onSubmit()">
+    <div formArrayName="EntradaExterna">
+      <div
+        *ngFor="
+          let skill of PuntoFuncionForm.get('EntradaExterna')['controls'];
+          let i = index
+        "
+      >
+        <div class="container" [formGroupName]="i">
+          <div class="row">
+            <div class="col-lg-5">
+              <label>Nombre: </label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Nombre"
+                formControlName="Nombre"
+                required
+              />
+
+              <label>Complejidad: </label>
+              <div
+                class="btn-group btn-group-toggle"
+                ngbRadioGroup
+                name="radioBasic"
+              >
+                <label ngbButtonLabel class="btn-primary">
+                  <input
+                    ngbButton
+                    type="radio"
+                    formControlName="Complejidad"
+                    value="0"
+                  />
+                  Simple
+                </label>
+                <label ngbButtonLabel class="btn-primary">
+                  <input
+                    ngbButton
+                    type="radio"
+                    formControlName="Complejidad"
+                    value="1"
+                  />
+                  Media
+                </label>
+                <label ngbButtonLabel class="btn-primary">
+                  <input
+                    ngbButton
+                    type="radio"
+                    formControlName="Complejidad"
+                    value="2"
+                  />
+                  Alta
+                </label>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <label>Descripción: </label>
+              <textarea
+                class="form-control full-textarea"
+                id="exampleFormControlTextarea1"
+                rows="3"
+                placeholder="Descripción"
+                formControlName="Descripcion"
+              ></textarea>
+            </div>
+            <div class="col-lg-1">
+              <label>Remover</label>
+              <button class="btn btn-danger w-100" (click)="removerProducto(i)">
+                -
+              </button>
+            </div>
+          </div>
+        </div>
+        <hr />
+      </div>
+    </div>
+  </form>
+
+  {{ PuntoFuncionForm.value | json }}
+
+  <h3>Salidas externas. SE.</h3>
+  <h3>Consultas externas. CE.</h3>
+  <h3>Archivos Lógicos Internos ALI.</h3>
+  <h3>Archivos de Interfaz Externa. AIE.</h3>
+
+  <h2>Paso 2. Conteocomplejidad</h2>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Valor de dominio de información</th>
+        <th scope="col">Conteo Total</th>
+        <th scope="col">Simple</th>
+        <th scope="col">Media</th>
+        <th scope="col">Alta</th>
+        <th scope="col">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let Componente of ConteoComplejidad; index as i">
+        <td>{{ Componente.Nombre }}</td>
+        <td>{{ Componente.ConteoTotal }}</td>
+        <td>{{ Componente.Simple }} x {{ Componente.ValorSimple }}pts</td>
+        <td>{{ Componente.Media }} x {{ Componente.ValorMedia }}pts</td>
+        <td>{{ Componente.Alta }} x {{ Componente.ValorAlta }}pts</td>
+        <td>{{ Componente.Total }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Paso 3. Factores de ajuste de valor</h3>
+  <h5>Valores de 0 (No importante/aplicable) a 5 (Absolutamente esencial).</h5>
+  <div *ngFor="let Elemento of FAV; index as i">
+    <p>
+      {{ i + 1 }}. {{ Elemento.Pregunta }} | Puntuación:
+      <b>{{ Elemento.Puntuacion }}</b>
+    </p>
+    <button
+      class="btn btn-sm btn-outline-primary mr-2"
+      (click)="this.EliminarPuntuacion(i)"
+    >
+      0
+    </button>
+    <ngb-rating
+      [(rate)]="Elemento.Puntuacion"
+      (rateChange)="this.SumatoriaFAV()"
+    ></ngb-rating>
+  </div>
+
+  <h4>Tabla resumen Factor de Ajuste de Valor (FAV)</h4>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Factor</th>
+        <th scope="col">Valor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let Elemento of FAV; index as i">
+        <td>{{ i + 1 }}</td>
+        <td>{{ Elemento.Nombre }}</td>
+        <td>{{ Elemento.Puntuacion }}pts</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td class="text-right"><b>Total: ∑(Fi)</b></td>
+        <td>
+          <b>{{ this.TotalFAV }}</b>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

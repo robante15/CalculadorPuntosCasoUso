@@ -1,0 +1,125 @@
+<h1>{{ title }}</h1>
+
+<ngb-accordion #acc="ngbAccordion">
+  <ngb-panel title="Teoría">
+    <ng-template ngbPanelContent>
+      <div class="col-md-12">
+        <h4>Factores de complejidad técnica</h4>
+        <p>
+          Este se compone de 13 puntos que evalúan la complejidad de los módulos
+          del sistema que se desarrolla, cada uno de estos factores tienen un
+          peso definido con los cuales se obtendrá puntos ponderados por cada
+          uno de ellos, según la valoración que se le asigne. Para una mejor
+          comprensión, a continuación se mostrará una tabla con los ítems:
+        </p>
+
+        <div class="col-md-8 offset-md-2">
+          <table class="table table-bordered">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Factor</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Peso</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let elemento of this.FCT; index as i">
+                <td>T{{ i + 1 }}</td>
+                <td>{{ elemento.Descripcion }}</td>
+                <td>{{ elemento.Peso }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          Cada uno de estos puntos se debe evaluar según la siguiente escala:
+        </p>
+
+        <div class="col-md-4 offset-md-4">
+          <table class="table table-bordered">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Descripción</th>
+                <th scope="col">Valor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Irrelevante</td>
+                <td>De 0 a 2.</td>
+              </tr>
+              <tr>
+                <td>Medio</td>
+                <td>De 3 a 4.</td>
+              </tr>
+              <tr>
+                <td>Esencial</td>
+                <td>5.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>Las fórmulas para este punto son:</p>
+        <p>TFactor = Sum (Valor*Peso)</p>
+        <p>TCF = 0.6 + (0.01 * TFactor)</p>
+        <p>
+          Para realizar este cálculo, se debe evaluar cada factor, asignándole
+          un valor como se menciona anteriormente, después se multiplican y se
+          suma cada producto para obtener el TFactor. Luego, se debe seguir la
+          segunda fórmula multiplicando el TFactor por 0.01 y sumar el resultado
+          a 0.6, esto nos va a dar el TCF.
+        </p>
+      </div>
+    </ng-template>
+  </ngb-panel>
+</ngb-accordion>
+
+<hr />
+
+<h2 class="text-center">Puntuación de los Factores</h2>
+
+<h5>Indicaciones:</h5>
+<p>
+  Califica de 0 a 5 los siguientes aspectos para evaluar la complejidad de los
+  módulos del sistema. Donde 0 es Irrelevante para el sistema, y 5 es Escencial
+  para el sistema
+</p>
+
+<div class="col-md-10 offset-md-1">
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Factor</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Peso</th>
+        <th scope="col">Puntuación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let Factor of FCT; index as i">
+        <th scope="row">T{{ i + 1 }}</th>
+        <td>{{ Factor.Descripcion }}</td>
+        <td>{{ Factor.Peso }}</td>
+        <td>
+          <ngb-rating [resettable]="true" [(rate)]="Factor.Valor">
+            <ng-template let-fill="fill" let-index="index">
+              <span class="star" [class.filled]="fill === 100">&#9733;</span>
+            </ng-template>
+          </ngb-rating>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="d-flex justify-content-end">
+  <button type="button" class="btn btn-primary" (click)="CalculoFCT()">
+    Calcular
+  </button>
+</div>
+
+<h2 class="text-center">Resultados</h2>
+<h5 class="text-center">TFactor Σ(Valor x Peso): {{ this.ResultadoTCF.TFactor }}</h5>
+<h5 class="text-center">TCF (0.6 + (0.01 x TFactor)): {{ this.ResultadoTCF.FCTValue }}</h5>

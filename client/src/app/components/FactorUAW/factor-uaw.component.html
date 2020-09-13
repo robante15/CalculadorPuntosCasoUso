@@ -1,0 +1,187 @@
+<h1>{{ title }}</h1>
+
+<ngb-accordion #acc="ngbAccordion">
+  <ngb-panel title="Teoría">
+    <ng-template ngbPanelContent>
+      <div class="col-md-12">
+        <p>
+          Consiste en la evaluación de la complejidad de los actores con los que
+          tendrá que interactuar el sistema. Este puntaje se calcula
+          determinando si cada actor es una persona u otro sistema, a la forma
+          en la que este interactúa con el caso de uso y la cantidad de actores
+          de cada tipo.
+        </p>
+
+        <div class="col-md-8 offset-md-2">
+          <table class="table table-bordered">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Tipo de actor</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Factor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let elemento of ListadoTipoActores; index as i">
+                <td>{{ elemento.TipoActor }}</td>
+                <td>{{ elemento.Descripcion }}</td>
+                <td>{{ elemento.Factor }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>La fórmula sería: UAW = Sum(cantidadDeUnTipoDeActor*Factor)</p>
+        <p>
+          Para realizar esta operación sería necesario contar cuántos actores de
+          cada tipo existen en el sistema, este representaría el valor
+          cantidadDeUnTipoDeActor en la fórmula y se tiene que multiplicar por
+          el valor que tenga su factor correspondiente, para obtener el
+          resultado por cada tipo de actor. Una vez terminado esto se procede a
+          sumar cada producto para obtener el UAW.
+        </p>
+      </div>
+    </ng-template>
+  </ngb-panel>
+</ngb-accordion>
+
+<hr />
+
+<h2 class="text-center">Listado de Actores</h2>
+
+<h5>Indicaciones:</h5>
+<p>
+  Agrega los Actores que necesites en tu solución, asignales un nombre o una
+  descripción, además de asignarle una complejidad entre Simple, Media y
+  Compleja.
+</p>
+
+<form [formGroup]="ActoresForm" (ngSubmit)="CalculoUAW()">
+  <div formArrayName="FSimples">
+    <div
+      *ngFor="
+        let skill of ActoresForm.get('FSimples')['controls'];
+        let i = index
+      "
+    >
+      <div class="container" [formGroupName]="i">
+        <div class="row">
+          <div class="col-lg-8">
+            <label>Nombre: </label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Nombre"
+              formControlName="Nombre"
+              required
+            />
+          </div>
+
+          <div class="col-lg-3">
+            <label>Complejidad: </label>
+            <div
+              class="btn-group btn-group-toggle"
+              ngbRadioGroup
+              name="radioBasic"
+            >
+              <label ngbButtonLabel class="btn-primary">
+                <input
+                  ngbButton
+                  type="radio"
+                  formControlName="Complejidad"
+                  value="0"
+                />
+                Simple
+              </label>
+              <label ngbButtonLabel class="btn-primary">
+                <input
+                  ngbButton
+                  type="radio"
+                  formControlName="Complejidad"
+                  value="1"
+                />
+                Media
+              </label>
+              <label ngbButtonLabel class="btn-primary">
+                <input
+                  ngbButton
+                  type="radio"
+                  formControlName="Complejidad"
+                  value="2"
+                />
+                Alta
+              </label>
+            </div>
+          </div>
+
+          <div class="col-lg-1">
+            <label>Remover</label>
+            <button
+              class="btn btn-danger w-100"
+              (click)="RemoverActorSimple(i)"
+            >
+              -
+            </button>
+          </div>
+        </div>
+      </div>
+      <hr />
+    </div>
+  </div>
+</form>
+
+<div class="d-flex justify-content-end">
+  <button
+    class="btn btn-light mr-3"
+    type="button"
+    (click)="AgregarActorSimple()"
+  >
+    Agregar Actores
+  </button>
+  <button type="button" class="btn btn-primary" (click)="CalculoUAW()">
+    Calcular
+  </button>
+</div>
+
+<h2 class="text-center">Resultados</h2>
+
+<div class="col-md-6 offset-md-3">
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Complejidad</th>
+        <th scope="col">Cantidad</th>
+        <th scope="col">Factor</th>
+        <th scope="col">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Simple</td>
+        <td>{{ ResultadoUAW.CantidadSimple }}</td>
+        <td>1</td>
+        <td>{{ ResultadoUAW.CantidadSimple * 1 }}</td>
+      </tr>
+      <tr>
+        <td>Medio</td>
+        <td>{{ ResultadoUAW.CantidadMedia }}</td>
+        <td>2</td>
+        <td>{{ ResultadoUAW.CantidadMedia * 2 }}</td>
+      </tr>
+      <tr>
+        <td>Complejo</td>
+        <td>{{ ResultadoUAW.CantidadCompleja }}</td>
+        <td>3</td>
+        <td>{{ ResultadoUAW.CantidadCompleja * 3 }}</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td><b>Total</b></td>
+        <td>
+          <b>{{ ResultadoUAW.UAWTotal }}</b>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

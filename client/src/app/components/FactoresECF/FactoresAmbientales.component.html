@@ -1,0 +1,129 @@
+<h1>{{ title }}</h1>
+
+<ngb-accordion #acc="ngbAccordion">
+  <ngb-panel title="Teoría">
+    <ng-template ngbPanelContent>
+      <div class="col-md-12">
+        <h4>Factores ambientales</h4>
+        <p>
+          Los factores sobre los cuales se realiza la evaluación son 8 puntos,
+          que están relacionados con las habilidades y experiencia del grupo de
+          personas involucradas con el desarrollo del proyecto. Estos factores
+          se muestran a continuación:
+        </p>
+
+        <div class="col-md-8 offset-md-2">
+          <table class="table table-bordered">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Factor</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Peso</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let elemento of this.FactoresAmb; index as i">
+                <td>E{{ i + 1 }}</td>
+                <td>{{ elemento.Descripcion }}</td>
+                <td>{{ elemento.Peso }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          Cada uno de estos puntos se debe evaluar según la siguiente escala:
+        </p>
+
+        <div class="col-md-4 offset-md-4">
+          <table class="table table-bordered">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Descripción</th>
+                <th scope="col">Valor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Irrelevante</td>
+                <td>De 0 a 2.</td>
+              </tr>
+              <tr>
+                <td>Medio</td>
+                <td>De 3 a 4.</td>
+              </tr>
+              <tr>
+                <td>Esencial</td>
+                <td>5.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>Las fórmulas para este punto son:</p>
+        <p>EFactor = Sum(Valor * Peso)</p>
+        <p>EF = 1.4 + (-0.03 * EFactor)</p>
+        <p>
+          Para obtener el EFactor se debe sumar todos los productos obtenidos al
+          multiplicar el peso de cada punto por el valor asignado, después se
+          multiplica por -0.03 y se le suma el 1.4. Así, se obtiene el peso de
+          los factores ambientales (EF).
+        </p>
+      </div>
+    </ng-template>
+  </ngb-panel>
+</ngb-accordion>
+
+<hr />
+
+<h2 class="text-center">Puntuación de los Factores</h2>
+
+<h5>Indicaciones:</h5>
+
+<p>
+  Califica de 0 a 5 los siguientes aspectos para evaluar la complejidad de los
+  módulos del sistema. Donde 0 es Irrelevante para el sistema, y 5 es Escencial
+  para el sistema
+</p>
+
+<div class="col-md-10 offset-md-1">
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Factor</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Peso</th>
+        <th scope="col">Puntuación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let Factor of FactoresAmb; index as i">
+        <th scope="row">E{{ i + 1 }}</th>
+        <td>{{ Factor.Descripcion }}</td>
+        <td>{{ Factor.Peso }}</td>
+        <td>
+          <ngb-rating [resettable]="true" [(rate)]="Factor.Valor">
+            <ng-template let-fill="fill" let-index="index">
+              <span class="star" [class.filled]="fill === 100">&#9733;</span>
+            </ng-template>
+          </ngb-rating>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="d-flex justify-content-end">
+  <button type="button" class="btn btn-primary" (click)="CalculoECF()">
+    Calcular
+  </button>
+</div>
+
+<h2 class="text-center">Resultados</h2>
+<h5 class="text-center">
+  EFactor Σ(Valor x Peso): {{ this.ResultadoECF.EFactor }}
+</h5>
+<h5 class="text-center">
+  EF (1.4 + (-0.03 x EFactor)): {{ this.ResultadoECF.EFValue }}
+</h5>
+

@@ -1,0 +1,29 @@
+<div class="col-lg-6 offset-md-3">
+  <h1 class="text-center">{{ title }}</h1>
+  <hr />
+
+  <ngb-pagination
+    [collectionSize]="50"
+    [(page)]="page"
+    aria-label="Custom pagination"
+    class="d-flex justify-content-center"
+  >
+    <ng-template ngbPaginationPrevious>Anterior</ng-template>
+    <ng-template ngbPaginationNext>Siguiente</ng-template>
+    <ng-template ngbPaginationNumber let-p>{{ getPageSymbol(p) }}</ng-template>
+  </ngb-pagination>
+
+  <p>
+    <ngb-progressbar
+      [showValue]="true"
+      type="success"
+      [value]="20 * this.page"
+    ></ngb-progressbar>
+  </p>
+
+  <FactorUUCW *ngIf="this.page == 1"></FactorUUCW>
+  <FactorUAW *ngIf="this.page == 2"></FactorUAW>
+  <FactoresCT *ngIf="this.page == 3"></FactoresCT>
+  <FactoresAmbientales *ngIf="this.page == 4"></FactoresAmbientales>
+  <CalculoUCP *ngIf="this.page == 5"></CalculoUCP>
+</div>
