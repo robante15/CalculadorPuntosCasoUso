@@ -4,9 +4,21 @@
   <ngb-panel title="Teoría">
     <ng-template ngbPanelContent>
       <div class="col-md-12">
-        <h5 class="text-center">UCP = (UUCW + UAW) x TCF x ECF</h5>
+        <h3 class="text-center">Puntos de caso de uso ajustados (UCP)</h3>
+        <p>
+          Para esto se utilizan las siglas UCP y se obtiene al multiplicar el
+          UUCP el TCF y el EF quedando la operación de la siguiente forma:
+        </p>
+        <b>UCP = (UUCW + UAW) x TCF x ECF</b>
+        <p>Estas siglas significan:</p>
+        <ul>
+          <li><b>UCP:</b> Puntos de casos de uso ajustados.</li>
+          <li><b>UUCP:</b> Puntos de casos de uso sin ajustar.</li>
+          <li><b>TCF:</b> Factores técnicos.</li>
+          <li><b>EF:</b> Factores ambientales.</li>
+        </ul>
 
-        <h5 class="text-center">Esfuerzo Horas-Hombre</h5>
+        <h3 class="text-center">Esfuerzo Horas-Hombre</h3>
         <p>
           Este cálculo se realiza con el fin de tener una aproximación del
           esfuerzo, pensando solo en el desarrollo según las funcionalidades de
@@ -20,21 +32,71 @@
           E6 que tienen una puntuación menor a 3, también contar la cantidad de
           estos mismos del E7 y E8 que son mayores que 3.
         </p>
+
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <p>Conteo de factores aplicando el filtro :</p>
+              <br />
+              <table class="table table-bordered">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Factor</th>
+                    <th scope="col">Filtro</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>De E1 a E6</td>
+                    <td>Factor < 3</td>
+                  </tr>
+                  <tr>
+                    <td>De E7 a E8</td>
+                    <td>Factor > 3</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="col">
+              <p>
+                Para evaluar el resultado o la cantidad total según la siguiente
+                tabla:
+              </p>
+
+              <table class="table table-bordered">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Horas-Persona (CF)</th>
+                    <th scope="col">Descripción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>20</td>
+                    <td>Si el valor es<=2</td>
+                  </tr>
+                  <tr>
+                    <td>28</td>
+                    <td>Si el valor es<=4</td>
+                  </tr>
+                  <tr>
+                    <td>36</td>
+                    <td>Si el valor es>=5</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </ng-template>
   </ngb-panel>
 </ngb-accordion>
 
+<!--<div><button (click)="downloadAsPDF()">Export To PDF</button></div>-->
+
 <h2 class="text-center">Resultados</h2>
-
-<h5 class="text-center">
-  UCP = ({{ this.ResultadoUUCW.UUCWTotal }} + {{ this.ResultadoUAW.UAWTotal }})
-  x {{ this.ResultadoTCF.FCTValue }} x {{ this.ResultadoECF.EFValue }} =
-  {{ this.UCPFinal }}
-</h5>
-<h5 class="text-center">UCP = {{ this.UCPFinal }}</h5>
-
-<h1>Reporte</h1>
 
 <h2>1. Factor de peso de los actores sin ajustar (UAW)</h2>
 <div class="col-md-10 offset-md-1">
@@ -252,7 +314,8 @@
 
 <h5 class="text-center">ECF = 1.4 + (-0.03 x EF)</h5>
 <h5 class="text-center">
-  ECF = 1.4 + (-0.03 * {{ ResultadoECF.EFactor }}) = {{ ResultadoECF.EFValue }}
+  ECF = 1.4 + (-0.03 * {{ ResultadoECF.EFactor }}) =
+  {{ ResultadoECF.EFValue }}
 </h5>
 <h5 class="text-center">ECF = {{ ResultadoECF.EFValue }}</h5>
 
@@ -266,70 +329,35 @@
 
 <h2>6. Esfuerzo Horas-Hombre</h2>
 
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <p>Conteo de factores aplicando el filtro :</p>
-      <br />
-      <table class="table table-bordered">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">Factor</th>
-            <th scope="col">Filtro</th>
-            <th scope="col">Cantidad</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>De E1 a E6</td>
-            <td>Factor < 3</td>
-            <td>{{ ResultadoECF.E1E6Menor }}</td>
-          </tr>
-          <tr>
-            <td>De E7 a E8</td>
-            <td>Factor > 3</td>
-            <td>{{ ResultadoECF.E7E8Mayor }}</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td><b>Total:</b></td>
-            <td>
-              <b>{{ ResultadoECF.E7E8Mayor + ResultadoECF.E1E6Menor }}</b>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="col">
-      <p>
-        Para evaluar el resultado o la cantidad total según la siguiente tabla:
-      </p>
-
-      <table class="table table-bordered">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">Horas-Persona (CF)</th>
-            <th scope="col">Descripción</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>20</td>
-            <td>Si el valor es<=2</td>
-          </tr>
-          <tr>
-            <td>28</td>
-            <td>Si el valor es<=4</td>
-          </tr>
-          <tr>
-            <td>36</td>
-            <td>Si el valor es>=5</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<div class="col-md-6 offset-md-3">
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Factor</th>
+        <th scope="col">Filtro</th>
+        <th scope="col">Cantidad</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>De E1 a E6</td>
+        <td>Factor < 3</td>
+        <td>{{ ResultadoECF.E1E6Menor }}</td>
+      </tr>
+      <tr>
+        <td>De E7 a E8</td>
+        <td>Factor > 3</td>
+        <td>{{ ResultadoECF.E7E8Mayor }}</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><b>Total:</b></td>
+        <td>
+          <b>{{ ResultadoECF.E7E8Mayor + ResultadoECF.E1E6Menor }}</b>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <h5 class="text-center">Cantidad Horas-Persona = UCP x CF</h5>
@@ -342,27 +370,27 @@
 </h5>
 
 <div class="col-md-6 offset-md-3">
-<table class="table table-bordered">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">Actividad</th>
-      <th scope="col">Porcentaje</th>
-      <th scope="col">Valor</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let ElementoHH of CalculoHorasHombre.EsfuerzoHH; index as i">
-      <td>{{ ElementoHH.Actividad }}</td>
-      <td>E/{{ ElementoHH.Porcentaje }}</td>
-      <td>{{ ElementoHH.Valor }}</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><b>Total:</b></td>
-      <td>
-        <b>{{ this.CalculoHorasHombre.HHTotal }}</b>
-      </td>
-    </tr>
-  </tbody>
-</table>
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Actividad</th>
+        <th scope="col">Porcentaje</th>
+        <th scope="col">Valor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ElementoHH of CalculoHorasHombre.EsfuerzoHH; index as i">
+        <td>{{ ElementoHH.Actividad }}</td>
+        <td>E/{{ ElementoHH.Porcentaje }}</td>
+        <td>{{ ElementoHH.Valor }}</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><b>Total:</b></td>
+        <td>
+          <b>{{ this.CalculoHorasHombre.HHTotal }}</b>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

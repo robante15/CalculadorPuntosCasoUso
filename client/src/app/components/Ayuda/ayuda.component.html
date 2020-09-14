@@ -1,0 +1,278 @@
+<div class="col-lg-6 offset-md-3">
+  <h1 class="text-center">{{ title }}</h1>
+  <hr />
+
+  <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+    <ngb-panel>
+      <ng-template ngbPanelTitle>
+        <span>Paso 1: Factor de peso de los actores sin ajustar (UAW)</span>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <p>
+          Agrega los actores que sean requeridos en tu sistema, haciendo clic en
+          el botón "Agregar Actores", lo cual desplegará un cuadro de texto en
+          el cual podrás ingresar el nombre o descripción del actor que desees
+          agregar, adicional aparecerán tres botones los cuales permiten
+          seleccionar el grado de complejidad del actor que estés agregando,
+          siguiendo los criterios mostrados en la siguiente tabla:
+        </p>
+        <div class="col-md-8 offset-md-2">
+          <table class="table table-bordered">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Tipo de actor</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Factor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let elemento of ListadoTipoActores; index as i">
+                <td>{{ elemento.TipoActor }}</td>
+                <td>{{ elemento.Descripcion }}</td>
+                <td>{{ elemento.Factor }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="text-muted text-center">
+            Tabla 1. Descripción de los tipos de actor
+          </p>
+        </div>
+        <p>
+          Si se desea agregar más actores, se puede seguir dando clic en el
+          botón "Agregar Actores" cuanto sea necesario, en caso de que se hayan
+          agregado más campos de actores de los que sean necesarios se pueden
+          remover utilizando el botón rojo con un símbolo de " - " dentro de el.
+        </p>
+        <p>
+          Cuando se hayan agregado todos los actores se debe hacer clic en el
+          botón de "Calcular" para que sean procesados, y los resultados serán
+          mostrados al final de la página, además de ser accesibles al final por
+          medio de un reporte.
+        </p>
+
+        <div class="col-md-10 offset-md-1">
+          <img
+            class="img-fluid"
+            alt="Responsive image"
+            src="../../assets/AgregarActores.jpg"
+          />
+          <p class="text-muted text-center">
+            Fig 1. Ejemplo de como agregar los actores
+          </p>
+        </div>
+      </ng-template>
+    </ngb-panel>
+    <ngb-panel>
+      <ng-template ngbPanelTitle>
+        <span>Paso 2: Factor de peso de los casos de uso sin ajustar</span>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <p>
+          Agrega los Casos de Uso que sean requeridos en tu sistema, haciendo
+          clic en el botón "Agregar Caso de Uso", lo cual desplegará un cuadro
+          de texto en el cual podrás ingresar el nombre o descripción del caso
+          de uso que desees agregar, adicional aparecerán tres botones los
+          cuales permiten seleccionar el grado de complejidad del caso de uso
+          que estés agregando, lo cual se puede definir según "Basado en
+          transacciones", o "Basado en clases de análisis", se puede observar su
+          descripción en la siguiente tabla.
+        </p>
+
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <p>
+                <b>Basado en transacciones:</b> Toma en cuenta el número de
+                transacciones que se pueden realizar en un caso de uso y lo
+                evalúa según la siguiente tabla:
+              </p>
+            </div>
+            <div class="col">
+              <b>Basado en clases de análisis:</b> Toma en cuenta el número de
+              clases que tiene un caso de uso y lo evalúa según la siguiente
+              tabla:
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <table class="table table-bordered">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Tipo de actor</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Factor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let elemento of BasadoTransacciones; index as i">
+                    <td>{{ elemento.TipoActor }}</td>
+                    <td>{{ elemento.Descripcion }}</td>
+                    <td>{{ elemento.Factor }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="text-muted text-center">
+                Tabla 2. Peso de las transacciones.
+              </p>
+            </div>
+            <div class="col">
+              <table class="table table-bordered">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Tipo de actor</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Factor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let elemento of BasadoClases; index as i">
+                    <td>{{ elemento.TipoActor }}</td>
+                    <td>{{ elemento.Descripcion }}</td>
+                    <td>{{ elemento.Factor }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="text-muted text-center">
+                Tabla 3. Peso de las clases de análisis.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <p>
+          Si se desea agregar más casos de uso, se puede seguir dando clic en el
+          botón "Agregar Caso de Uso" cuanto sea necesario, en caso de que se
+          hayan agregado más campos de los que sean necesarios se pueden remover
+          utilizando el botón rojo con un símbolo de " - " dentro de el.
+        </p>
+
+        <p>
+          Cuando se hayan agregado todos los casos de uso se debe hacer clic en
+          el botón de "Calcular" para que sean procesados, y los resultados
+          serán mostrados al final de la página, además de ser accesibles al
+          final por medio de un reporte.
+        </p>
+        <div class="col-md-10 offset-md-1">
+          <img
+            class="img-fluid"
+            alt="Responsive image"
+            src="../../assets/AgregarCasosUso.jpg"
+          />
+          <p class="text-muted text-center">
+            Fig 2. Ejemplo de como agregar casos de uso
+          </p>
+        </div>
+      </ng-template>
+    </ngb-panel>
+    <ngb-panel>
+      <ng-template ngbPanelTitle>
+        <span>Paso 3: Cálculo de los Factores de Complejidad Técnica </span>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <p>
+          Para calcular los Factores de Complejidad Técnica, únicamente se deben
+          puntuar los diferentes ítem con una calificación de 0 a 5, siento 0
+          que ese elemento es irrelevante para el sistema, y 5 que dicho
+          elemento es completamente esencial para el sistema.
+        </p>
+        <p>
+          Se deberá de dar clic a las estrellas que aparecen al lado derecho de
+          los diferentes ítems, la cantidad de estrellas seleccionadas es la
+          calificación que se le da a ese ítem, en caso de que la calificación
+          que se desee sea cero, se puede dejar sin marcar, en caso que ya se
+          haya marcado al volver a puntuarlo con la misma puntuación se reinicia
+          el ítem, y su valor vuelve a ser de cero
+        </p>
+
+        <p>
+          Cuando se hayan puntuado todos los ítems se debe hacer clic en el
+          botón de "Calcular" para que sean procesados, y los resultados serán
+          mostrados al final de la página, además de ser accesibles al final por
+          medio de un reporte.
+        </p>
+
+        <div class="col-md-10 offset-md-1">
+          <img
+            class="img-fluid"
+            alt="Responsive image"
+            src="../../assets/ResolverComplejidadTecnica.JPG"
+          />
+          <p class="text-muted text-center">
+            Fig 3. Ejemplo de Puntuación de los Factores
+          </p>
+        </div>
+      </ng-template>
+    </ngb-panel>
+    <ngb-panel>
+      <ng-template ngbPanelTitle>
+        <span>Paso 4: Cálculo de los Factores ambientales </span>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <p>
+          Para calcular los Factores Ambientales, únicamente se deben puntuar
+          los diferentes ítem con una calificación de 0 a 5, siento 0 que ese
+          elemento está completamente ausente como factor ambiental, y en caso
+          contrario la puntuación de 5 significa que dicho elemento está
+          presente en su totalidad como un factor ambiental.
+        </p>
+        <p>
+          Se deberá de dar clic a las estrellas que aparecen al lado derecho de
+          los diferentes ítems, la cantidad de estrellas seleccionadas es la
+          calificación que se le da a ese ítem, en caso de que la calificación
+          que se desee sea cero, se puede dejar sin marcar, en caso que ya se
+          haya marcado al volver a puntuarlo con la misma puntuación se reinicia
+          el ítem, y su valor vuelve a ser de cero
+        </p>
+
+        <p>
+          Cuando se hayan puntuado todos los ítems se debe hacer clic en el
+          botón de "Calcular" para que sean procesados, y los resultados serán
+          mostrados al final de la página, además de ser accesibles al final por
+          medio de un reporte.
+        </p>
+
+        <div class="col-md-10 offset-md-1">
+          <img
+            class="img-fluid"
+            alt="Responsive image"
+            src="../../assets/ResolverFactoresAmbientales.jpg"
+          />
+          <p class="text-muted text-center">
+            Fig 4. Ejemplo de Puntuación de los Factores Ambientales
+          </p>
+        </div>
+      </ng-template>
+    </ngb-panel>
+    <ngb-panel>
+      <ng-template ngbPanelTitle>
+        <span>Paso 5: Calculo UCP / Resultados </span>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <p>
+          En este apartado se puede ver un resumen de todo lo respondido en los
+          cuatro pasos anteriores, además de presentar los cálculos finales
+          sobre el Esfuerzo Horas-Hombre necesarias para desarrollar el sistema
+          planteado al momento de resolver los cuestionarios anteriores.
+        </p>
+
+        <p>
+          Además se puede generar un PDF con el Resumen de todo el documento
+          haciendo clic en el botón de "Descargar PDF", y luego guardándolo
+          dentro del ordenador o dispositivo.
+        </p>
+
+        <div class="col-md-10 offset-md-1">
+          <img
+            class="img-fluid"
+            alt="Responsive image"
+            src="../../assets/UCP+HorasHombre.jpg"
+          />
+          <p class="text-muted text-center">
+            Fig 5. Resultado de los Puntos de Caso de Uso Ajustados (UCP),
+            además del conteo de Esfuerzo Horas-Hombre final.
+          </p>
+        </div>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+</div>

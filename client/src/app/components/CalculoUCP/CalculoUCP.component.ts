@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { element } from 'protractor';
+
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'CalculoUCP',
@@ -8,7 +13,35 @@ import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 })
 export class CalculoUCPComponent implements OnInit {
   title = 'Calculo UCP';
+
   UCPFinal: number = 0;
+
+  documentDefinition = {
+    content: [],
+    styles: {
+      header: {
+        fontSize: 18,
+        bold: true,
+        alignment: 'center',
+      },
+      subheader: {
+        fontSize: 15,
+        bold: true,
+        alignment: 'center',
+      },
+      quote: {
+        italics: true,
+      },
+      small: {
+        fontSize: 8,
+      },
+      tableHeader: {
+        bold: true,
+        fontSize: 13,
+        color: 'black',
+      },
+    },
+  };
 
   CalculoHorasHombre = {
     FactorHoraPersona: 0,
@@ -114,15 +147,83 @@ export class CalculoUCPComponent implements OnInit {
       this.CalculoHorasHombre.FactorHoraPersona = 36;
     }
 
-    this.CalculoHorasHombre.CantidadHorasPersona =
-      this.UCPFinal * this.CalculoHorasHombre.FactorHoraPersona;
+    this.CalculoHorasHombre.CantidadHorasPersona = parseFloat(
+      (this.UCPFinal * this.CalculoHorasHombre.FactorHoraPersona).toFixed(2)
+    );
   }
 
   CalculoEfuerzoActividad() {
     this.CalculoHorasHombre.EsfuerzoHH.forEach((elemento) => {
-      elemento.Valor =
-        this.CalculoHorasHombre.CantidadHorasPersona / elemento.Porcentaje;
+      elemento.Valor = parseFloat(
+        (
+          this.CalculoHorasHombre.CantidadHorasPersona / elemento.Porcentaje
+        ).toFixed(2)
+      );
       this.CalculoHorasHombre.HHTotal += elemento.Valor;
     });
+  }
+
+  public downloadAsPDF() {
+    this.Parte1PDF();
+    pdfMake.createPdf(this.documentDefinition).open();
+  }
+
+  public Parte1PDF() {
+    let Enunciado = [
+      {
+        text: 'Resultados',
+        style: 'header',
+      },
+      {
+        text: '1. Factor de peso de los actores sin ajustar (UAW)',
+        style: 'subheader',
+      },
+      {
+        style: 'tableExample',
+        table: {
+          body: [
+            [
+              { text: '#', style: 'tableHeader' },
+              { text: 'Actor', style: 'tableHeader' },
+              { text: 'Complejidad', style: 'tableHeader' },
+            ],
+          ],
+        },
+      },
+      {
+        text: 'Conteo',
+        style: 'subheader',
+      },
+      {
+        style: 'tableExample',
+        table: {
+          body: [
+            [
+              { text: 'Complejidad', style: 'tableHeader' },
+              { text: 'Cantidad', style: 'tableHeader' },
+              { text: 'Factor', style: 'tableHeader' },
+              { text: 'Total', style: 'tableHeader' },
+            ],
+          ],
+        },
+      },
+    ];
+
+    this.ResultadoUAW.ListadoUAW.forEach(function (elemento, index) {
+      let complejidad = 'Simple';
+      if (elemento.Complejidad == 1) {
+        complejidad = 'Medio';
+      }
+      if (elemento.Complejidad == 2) {
+        complejidad = 'Complejo';
+      }
+      let FilaTabla = [index, elemento.Nombre, complejidad];
+      Enunciado[2].table.body.push(FilaTabla);
+    });
+
+    //let FilaSimple = ['Simple', this.ResultadoUAW.CantidadSimple, 5, this.ResultadoUAW.CantidadSimple*5];
+    //Enunciado[4].table.body.push(FilaSimple);
+
+    this.documentDefinition.content.push(Enunciado);
   }
 }

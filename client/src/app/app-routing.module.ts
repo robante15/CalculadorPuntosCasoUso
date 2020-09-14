@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 // Importar componentes
-import { PuntoFuncionComponent } from './components/PuntoFuncion/PuntoFuncion.component';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { FactoresCTComponent } from './components/FactoresCT/FactoresCT.component';
 import { FactoresAmbientalesComponent } from './components/FactoresECF/FactoresAmbientales.component';
@@ -10,11 +9,11 @@ import { FactorUAWComponent } from './components/FactorUAW/factor-uaw.component'
 import { FactorUUCWComponent } from './components/FactorUUCW/FactorUUCW.component';
 import { CalculoUCPComponent } from './components/CalculoUCP/CalculoUCP.component';
 import { PuntosCUComponent } from './components/PuntosCU/PuntosCU.component';
+import { AyudaComponent } from './components/Ayuda/ayuda.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/inicio', pathMatch: 'full' },
-  { path: 'inicio', component: InicioComponent },
-  { path: 'PuntoFuncion', component: PuntoFuncionComponent },
+  { path: '', redirectTo: '/Inicio', pathMatch: 'full' },
+  { path: 'Inicio', component: InicioComponent },
   { path: 'FactoresTCF', component: FactoresCTComponent },
   {
     path: 'FactoresECF',
@@ -24,6 +23,7 @@ const routes: Routes = [
   { path: 'FactoresUUCW', component: FactorUUCWComponent },
   { path: 'CalculoUCP', component: CalculoUCPComponent },
   { path: 'PuntosCU', component: PuntosCUComponent },
+  { path: 'Ayuda', component: AyudaComponent },
 ];
 
 @NgModule({

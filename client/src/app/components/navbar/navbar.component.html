@@ -1,31 +1,29 @@
-<div class="navigation offset-lg-1 col-lg-10">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <div class="navbar-brand">{{ title }}</div>
-      </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a
+    class="navbar-brand"
+    [routerLink]="['/Inicio']"
+    routerLinkActive="['active']"
+    >{{ title }}</a
+  >
 
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a
-            class="nav-link"
-            [routerLink]="['/PuntoFuncion']"
-            routerLinkActive="['active']"
-          >
-            Punto de Función
-          </a>
-        </li>
-
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            [routerLink]="['/login']"
-            routerLinkActive="['active']"
-          >
-            Puntos de caso de uso
-          </a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-</div>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a
+          class="nav-link"
+          [routerLink]="['/PuntosCU']"
+          routerLinkActive="['active']"
+          >Puntos de Caso de Uso <span class="sr-only">(current)</span></a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          [routerLink]="['/Ayuda']"
+          routerLinkActive="['active']"
+          >Ayuda</a
+        >
+      </li>
+    </ul>
+  </div>
+</nav>
